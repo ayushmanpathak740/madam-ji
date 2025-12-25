@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Sarita 💓</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#f0cdd4,#e6b8c2,#d4a5b0);
+  overflow:hidden;
+  font-family:'Crimson Text',serif;
+}
+
+/* Floating Hearts */
+.heart-bg{
+  position:absolute;
+  opacity:.25;
+  animation:float 10s linear infinite;
+  pointer-events:none;
+}
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0}
+  10%{opacity:.6}
+  100%{transform:translateY(-120vh);opacity:0}
+}
+
+/* Book */
+.book-container{perspective:2000px;z-index:10;}
+.book{
+  width:600px;height:450px;
+  display:flex;
+  position:relative;
+  transform-style:preserve-3d;
+  background:#fff;
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.3),
+    6px 6px 0 #dcb0bd,
+    12px 12px 0 #c99aa8;
+  transition:.6s;
+}
+.book.opened{
+  box-shadow:
+    0 15px 30px rgba(0,0,0,.25),
+    10px 10px 0 #fff0f5,
+    20px 20px 0 #e6cdd4;
+}
+
+/* Leather Cover */
+.cover{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  cursor:pointer;
+  transform-origin:left;
+  transition:transform 1.2s cubic-bezier(.6,.04,.3,1);
+  backface-visibility:hidden;
+
+  background:
+    radial-gradient(circle at top left,rgba(255,255,255,.2),transparent 60%),
+    repeating-linear-gradient(45deg,rgba(0,0,0,.08) 0 2px,transparent 2px 4px),
+    linear-gradient(135deg,#7a1f2b,#a4133c,#590d22);
+
+  border:3px solid #4a0d1e;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.4);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+.cover::before{
+  content:"";
+  position:absolute;
+  inset:14px;
+  border:2px dashed rgba(255,255,255,.4);
+}
+.cover h1{
+  font-family:'Great Vibes',cursive;
+  font-size:4.5rem;
+  color:#fff;
+  text-shadow:2px 2px 0 #400814,4px 4px 10px rgba(0,0,0,.6);
+}
+.cover p{
+  font-family:'Poppins';
+  letter-spacing:3px;
+  color:#ffe5ec;
+  margin-top:10px;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{50%{opacity:.6}}
+
+.book.opened .cover{transform:rotateY(-180deg);pointer-events:none;}
+
+/* Pages */
+.page{
+  flex:1;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.left{
+  background:#fdfaf7;
+  border-right:1px solid #ddd;
+  cursor:pointer;
+  text-align:center;
+}
+.right{
+  background:#fdfaf7;
+  cursor:pointer;
+}
+
+/* Left Page Design */
+.left-content{
+  opacity:.6;
+  user-select:none;
+}
+.chapter{
+  font-family:'Poppins';
+  letter-spacing:3px;
+  font-size:.75rem;
+  text-transform:uppercase;
+  color:#999;
+}
+.page-no{
+  font-size:3rem;
+  margin-top:10px;
+  color:#bbb;
+}
+
+/* Text */
+h2{
+  font-family:'Poppins';
+  color:#800020;
+  margin-bottom:15px;
+}
+p{
+  font-size:1.25rem;
+  color:#592e3b;
+  line-height:1.6;
+}
+
+/* Traits */
+.trait-container{margin-top:15px;display:flex;flex-direction:column;gap:12px;}
+.trait{
+  background:#ff8fab;
+  color:#fff;
+  padding:10px 15px;
+  border-radius:20px 20px 20px 0;
+  font-family:'Poppins';
+  cursor:pointer;
+  filter:blur(6px);
+  transition:.4s;
+}
+.trait.revealed{filter:blur(0);}
+
+/* Meter */
+.meter-box{margin-top:25px;display:none;}
+.bar-bg{height:20px;background:#ffe0e9;border-radius:10px;overflow:hidden;}
+.fill{height:100%;width:0;background:#ff4d6d;transition:.1s;}
+.stats{margin-top:10px;font-family:'Poppins';font-weight:600;color:#c9184a;display:flex;justify-content:space-between;}
+.final-msg{
+  display:none;
+  margin-top:15px;
+  padding:10px;
+  border:2px dashed #880d1e;
+  background:#fff0f3;
+  color:#880d1e;
+  font-weight:bold;
+}
+
+/* Proposal */
+.proposal{
+  font-family:'Great Vibes';
+  font-size:4rem;
+  text-align:center;
+  color:#d00000;
+  display:none;
+  animation:beat 1.5s infinite;
+}
+@keyframes beat{50%{transform:scale(1.1)}}
+
+/* Instruction */
+.instruction{
+  position:absolute;
+  bottom:15px;
+  font-family:'Poppins';
+  font-size:.75rem;
+  color:#ccc;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+for(let i=0;i<20;i++){
+  let h=document.createElement("div");
+  h.className="heart-bg";
+  h.innerText=Math.random()>.5?"💓":"✨";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=10+Math.random()*20+"px";
+  h.style.animationDuration=8+Math.random()*5+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+<div class="book-container">
+<div class="book" id="book">
+
+<div class="cover" onclick="openBook()">
+  <h1>For Sarita 💓</h1>
+  <p>Tap to open</p>
+</div>
+
+<div class="page left" onclick="prevPage()">
+  <div class="left-content">
+    <div class="chapter">Chapter</div>
+    <div class="page-no" id="pageNo">01</div>
+  </div>
+  <div class="instruction">← Previous</div>
+</div>
+
+<div class="page right" onclick="nextPage()">
+  <h2 id="title"></h2>
+  <p id="text"></p>
+
+  <div id="traits" class="trait-container"></div>
+
+  <div id="meter" class="meter-box">
+    <div class="bar-bg"><div class="fill" id="fill"></div></div>
+    <div class="stats"><span id="percent">0%</span><span>Cuteness</span></div>
+    <div class="final-msg" id="final">SYSTEM OVERLOAD 💓<br>Sarita is too cute.</div>
+  </div>
+
+  <div class="proposal" id="proposal">I Love You</div>
+
+  <div class="instruction">Next →</div>
+</div>
+
+</div>
+</div>
+
+<script>
+let open=false,index=0,traitsRevealed=0,totalTraits=0,meterInt;
+
+const pages=[
+{title:"Hey Sarita,",text:"This is not just a webpage. It's a book written only for you.",action:reset},
+{title:"Why a Book?",text:"Because books stay. Just like feelings that matter.",action:reset},
+{title:"The Effect",text:"You make normal days feel gentle and warm.",action:reset},
+{title:"Things I Noticed",text:"(Tap each one to reveal)",action:traits},
+{title:"Measuring Cuteness",text:"Let science try…",action:meter},
+{title:"So…",text:"Only one truth remains.",action:love}
+];
+
+function openBook(){
+ if(open)return;
+ document.getElementById("book").classList.add("opened");
+ open=true;
+ render();
+}
+
+function render(){
+ document.getElementById("title").innerText=pages[index].title;
+ document.getElementById("text").innerText=pages[index].text;
+ document.getElementById("pageNo").innerText=String(index+1).padStart(2,"0");
+ pages[index].action();
+}
+
+function nextPage(){
+ if(!open)return;
+ if(pages[index].title==="Things I Noticed" && traitsRevealed<totalTraits)return;
+ if(index<pages.length-1){index++;render();}
+}
+
+function prevPage(){
+ if(!open)return;
+ if(index>0){index--;render();}
+ else{
+  document.getElementById("book").classList.remove("opened");
+  open=false;
+ }
+}
+
+function reset(){
+ document.getElementById("traits").innerHTML="";
+ traitsRevealed=0;totalTraits=0;
+ clearInterval(meterInt);
+ document.getElementById("meter").style.display="none";
+ document.getElementById("proposal").style.display="none";
+ document.getElementById("final").style.display="none";
+ document.getElementById("fill").style.width="0";
+ document.getElementById("percent").innerText="0%";
+}
+
+function traits(){
+ reset();
+ ["Your smile","Your calm in chaos","Your kindness"].forEach(t=>{
+  totalTraits++;
+  let d=document.createElement("div");
+  d.className="trait";
+  d.innerText=t;
+  d.onclick=e=>{
+    e.stopPropagation();
+    if(!d.classList.contains("revealed")){
+      d.classList.add("revealed");
+      traitsRevealed++;
+    }
+  };
+  document.getElementById("traits").appendChild(d);
+ });
+}
+
+function meter(){
+ reset();
+ let v=0;
+ document.getElementById("meter").style.display="block";
+ meterInt=setInterval(()=>{
+  v++;
+  document.getElementById("fill").style.width=Math.min(v,100)+"%";
+  document.getElementById("percent").innerText=v+"%";
+  if(v>100)document.getElementById("final").style.display="block";
+  if(v>=200)clearInterval(meterInt);
+ },30);
+}
+
+function love(){
+ reset();
+ document.getElementById("proposal").style.display="block";
+}
+
+render();
+</script>
+
+</body>
+</html>
